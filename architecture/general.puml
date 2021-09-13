@@ -4,18 +4,15 @@ actor Клиент as Client
 
 package FlatPricesApp as FS {
     component Nginx
-
     component "Backend" as Back {
         component WebSocketAPI
         component DataHandler
         component Celery {
-        component RabbitMQ
-        component CeleryWorker
-    }
+            component RabbitMQ
+            component CeleryWorker
+        }
     component RegressionModel
     }
-
-
 }
 
 package ExternalApp {
