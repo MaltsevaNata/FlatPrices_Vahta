@@ -1,0 +1,38 @@
+@startuml
+skinparam SequenceMessageAlign first
+actor Клиент as Client
+
+package FlatPricesApp as FS {
+    component Nginx
+
+    component "Backend" as Back {
+        component WebSocketAPI
+        component DataHandler
+        component Celery {
+        component RabbitMQ
+        component CeleryWorker
+    }
+    component RegressionModel
+    }
+
+
+}
+
+package ExternalApp {
+    component EcologicalAPI
+}
+
+
+Client -left-> Nginx: \l1) данные о \lнедвижимости
+Nginx -right-> WebSocketAPI: \l2) данные о \lнедвижимости
+WebSocketAPI -right-> DataHandler: 3) обработать данные
+DataHandler <-right-> EcologicalAPI: 4)получить данные об экологической обстановке
+DataHandler -right-> RabbitMQ: 5) обработанные данные
+RabbitMQ --> CeleryWorker: 6) забрать данные из очереди
+CeleryWorker <--> RegressionModel: 7) определить залоговую стоимость
+CeleryWorker -[dotted,#blue]-> WebSocketAPI: 8) отправить результат вычислений
+WebSocketAPI -[dotted,#blue]-> Nginx: 9) залоговая стоимость недвижимости
+Nginx -[dotted,#blue]-> Client : 10) залоговая стоимость недвижимости
+
+
+@enduml
