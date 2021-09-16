@@ -7,3 +7,4 @@ eventlet==0.29.1
 pydantic==1.8.2
 orjson==3.6.3
 celery==5.1.2
+requests==2.26.0

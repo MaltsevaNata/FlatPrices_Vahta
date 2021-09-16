@@ -16,7 +16,7 @@ def predict_price(data: dict):
     print("predicting price...")
     time.sleep(5)
     print("Finished task")
-    emit("price", "300000")
+    emit("price", str(data))
 
 
 
