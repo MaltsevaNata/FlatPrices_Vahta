@@ -17,5 +17,5 @@ def predict_price(data: dict):
     """
     и сюда вместо числа 300000 вставить результат - цену
     """
-    socketIo.emit("price", str(data))
+    socketIo.emit("price", "300000")
     print("Finished task")

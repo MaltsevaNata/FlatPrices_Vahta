@@ -40,7 +40,6 @@ class WebSocketAPI:
             print(e)
             self.on_error("Failed to parse address, please check format")
         else:
-            print(enriched_data)
             self.socketIo.start_background_task(celery.send_task, 'celery_worker.predict', [enriched_data.dict()])
 
 
