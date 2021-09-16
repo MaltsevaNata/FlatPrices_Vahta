@@ -1,0 +1,38 @@
+services:
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - rabbitmq
+    # volumes line used for hot code reloading
+    volumes: [ './backend:/backend' ]
+
+  rabbitmq:
+    container_name: rabbit
+    image: rabbitmq:alpine
+    ports:
+      - 5672:5672
+    restart: always
+    env_file:
+      - ./.env.dev
+
+
+  celery_worker:
+    container_name: celery
+    build:
+      context: ./celery-queue
+    environment:
+      - WORKER_CONTAINER=TRUE
+    restart: always
+    links:
+      - rabbitmq
+    env_file:
+      - ./.env.dev
+    depends_on:
+      - rabbitmq
+    volumes: ['./celery-queue:/queue']
