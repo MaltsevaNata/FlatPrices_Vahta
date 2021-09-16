@@ -1,4 +1,4 @@
 #!/bin/sh
 
-supervisord -c supervisord.conf
+gunicorn -c gunicorn_conf.py wsgi_app:app --worker-class eventlet --reload
 exec "$@"

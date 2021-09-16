@@ -7,11 +7,10 @@ services:
       - "5000:5000"
     env_file:
       - ./.env.dev
-    links:
-      - celery_worker
     depends_on:
       - rabbitmq
-      - celery_worker
+    # volumes line used for hot code reloading
+    volumes: [ './backend:/backend' ]
 
   rabbitmq:
     container_name: rabbit
@@ -22,15 +21,13 @@ services:
     env_file:
       - ./.env.dev
 
+
   celery_worker:
     container_name: celery
     build:
-      context: ./backend
-    command: celery -A celery_worker worker --loglevel=info
+      context: ./celery-queue
     environment:
       - WORKER_CONTAINER=TRUE
-      - AMQP_HOST=rabbitmq
-      - AMQP_PORT=5672
     restart: always
     links:
       - rabbitmq
@@ -38,15 +35,4 @@ services:
       - ./.env.dev
     depends_on:
       - rabbitmq
-
-  flower:
-    container_name: flower
-    image: mher/flower:0.9.5
-    command: [ "flower", "--broker=amqp://rabbitmq:5672", "--port=5555", "--url_prefix=flower" ]
-    ports:
-      - 5555:5555
-    env_file:
-      - ./.env.dev
-    depends_on:
-      - rabbitmq
-      - celery_worker
+    volumes: ['./celery-queue:/queue']
