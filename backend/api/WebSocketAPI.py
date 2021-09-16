@@ -4,6 +4,8 @@ from flask_socketio import SocketIO, emit
 from core import config
 from models import RealEstate
 from utils import validate
+from core.celery import predict_price
+from core.eco_enricher import eco_enrich
 
 
 class WebSocketAPI:
@@ -29,6 +31,13 @@ class WebSocketAPI:
     def handle_input_data(self, data: RealEstate):
         print("Got your message")
         emit('my response', {'data': data.dict()})
+        enriched_data = eco_enrich(data)
+        predict_price.delay(enriched_data.dict())
+
+    def send_result(self, msg):
+        emit("price", msg)
+
+
 
 
 
