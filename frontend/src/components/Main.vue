@@ -186,7 +186,7 @@
                   >
                     {{ this.air_quality }}
                   </div>
-                  Cодержание CO в воздухе {{ this.comp_co }} мг/м3 (ПДК: 20 мг/м3)
+                  Cодержание CO в воздухе {{ this.comp_co }}
                 </div>
               </div>
             </transition>
@@ -250,6 +250,7 @@ export default {
       this.comp_co = data.components.co;
       this.loading = false;
       this.seen_results = true;
+      this.error = false;
     });
     this.sockets.subscribe("error", (data) => {
       this.loading = false;

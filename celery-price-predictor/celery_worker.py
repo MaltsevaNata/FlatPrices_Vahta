@@ -1,23 +1,51 @@
 import os
+
 from celery import Celery
 from flask_socketio import SocketIO
+import joblib
+import pandas as pd
 
 CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'amqp://rabbitmq:5672'),
 
 celery = Celery('celery_worker', broker=CELERY_BROKER_URL)
 
+with open('./moscow_model.pkl', 'wb') as f:
+    moscow_model = joblib.load(f)
+
+with open('./saintp_model.pkl', 'wb') as f:
+    saintp_model = joblib.load(f)
+
 
 @celery.task(name='celery_worker.predict')
 def predict_price(data: dict):
     print("predicting price...")
-    """
-    Здесь вызов функции предсказания цены, передать в нее данные data
-    """
-    socketIo = SocketIO(message_queue='amqp://rabbitmq:5672')
-    """
-    и сюда вместо числа 10000 вставить результат - цену, а в refund вставить цену -10%
-    """
 
-    socketIo.emit("price", {"price": 10000, "refund": 9500, "air_quality": data["AQI"],
+    df = pd.DataFrame(data)
+    features = [
+                'total_area',
+                'living_area',
+                'kitchen_area',
+                'floor_number',
+                'total_floors',
+                'year',
+                'material_type',
+                'underground',
+                'distance',
+                'azimuth'
+                ]
+    val_X = df[features]
+
+    if df['region'] == 'Moscow':
+        price = moscow_model.predict(val_X)
+        if price < 4000000:
+            price = 4100000
+    else:
+        price = saintp_model.predict(val_X)
+        if price < 260000:
+            price = 2650000
+
+    socketIo = SocketIO(message_queue='amqp://rabbitmq:5672')
+
+    socketIo.emit("price", {"price": price, "refund": (price - 0.1 * price), "air_quality": data["AQI"],
                             "components": {"co": round(data["air_pollutant_concentration"]["co"]/1000, 2)}})
     print("Finished task")
