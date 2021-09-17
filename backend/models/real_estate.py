@@ -22,7 +22,6 @@ class RealEstate(BaseModel):
     year: int
     address: str
     underground: bool
-    land: float = Field(required=False, default=None)
     lat: float = Field(required=False, default=None)
     lon: float = Field(required=False, default=None)
     AQI: int = Field(required=False, default=None)

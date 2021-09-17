@@ -19,7 +19,6 @@ class Material(str, enum.Enum):
     old = 'old'
     brick = 'brick'
     panel = 'panel'
-    wood = 'wood'
     wireframe = 'wireframe'
     aerocreteBlock = 'aerocreteBlock'
     stalin = 'stalin'
@@ -31,6 +30,5 @@ class Material(str, enum.Enum):
 class OfferType(str, enum.Enum):
     primary = 'primary'
     secondary = 'secondary'
-    house = 'house'
 
 

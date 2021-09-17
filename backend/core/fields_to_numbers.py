@@ -4,7 +4,9 @@ fields = {
     "region": {'Moscow': 1, 'SaintPetersburg': 2},
 
     "material_type": {'block': 0, 'brick': 1, 'monolith': 2, 'monolithBrick': 3, 'old': 4, 'panel': 5, 'stalin': 6,
-                      'wireframe': 7}
+                      'wireframe': 7},
+
+    "underground": {True: 1, False: 0}
 }
 
 
