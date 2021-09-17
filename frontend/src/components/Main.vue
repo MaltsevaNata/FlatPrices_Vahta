@@ -169,9 +169,9 @@
             <transition name="fade" v-if="seen_results">
               <div class="cost" v-if="seen_results">
                 <p class="cost_title">
-                  Предполагаемая рыночная цена жилья: {{ this.price }} Руб.
+                  Предполагаемая рыночная стоимость жилья: {{ this.price }} Руб.
                 </p>
-                <p class="cost_title">Залоговая цена: {{ this.refund }} Руб.</p>
+                <p class="cost_title">Залоговая стоимость: {{ this.refund }} Руб.</p>
                 <div class="cost_title">
                   Качество воздуха:
                   <div

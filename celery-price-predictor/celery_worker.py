@@ -19,5 +19,5 @@ def predict_price(data: dict):
     """
 
     socketIo.emit("price", {"price": 10000, "refund": 9500, "air_quality": data["AQI"],
-                            "components": {"co": data["air_pollutant_concentration"]["co"]}})
+                            "components": {"co": round(data["air_pollutant_concentration"]["co"]/1000, 2)}})
     print("Finished task")
