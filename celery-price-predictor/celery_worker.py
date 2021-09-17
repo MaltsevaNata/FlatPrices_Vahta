@@ -15,7 +15,9 @@ def predict_price(data: dict):
     """
     socketIo = SocketIO(message_queue='amqp://rabbitmq:5672')
     """
-    и сюда вместо числа 300000 вставить результат - цену
+    и сюда вместо числа 10000 вставить результат - цену, а в refund вставить цену -10%
     """
-    socketIo.emit("price", "300000")
+
+    socketIo.emit("price", {"price": 10000, "refund": 9500, "air_quality": data["AQI"],
+                            "components": {"co": data["air_pollutant_concentration"]["co"]}})
     print("Finished task")
