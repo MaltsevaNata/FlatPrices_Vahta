@@ -180,7 +180,7 @@ export default {
           living_area: this.living_area,
           kitchen_area: this.kitchen_area,
           year: this.year,
-          underground: this.underground,
+          underground: this.underground > 15 ? 1 : 0,
           material_type: this.material_type,
           address: this.address,
           floor_number: this.floor_number,
@@ -197,7 +197,14 @@ export default {
       this.air_quality = data.air_quality;
       this.comp_co = data.components.co;
     });
+    this.sockets.subscribe("got_data", (data) => {
+      console.log(data);
+    });
+    this.sockets.subscribe("error", (data) => {
+      console.log(data);
+    });
   },
+
 };
 </script>
 
