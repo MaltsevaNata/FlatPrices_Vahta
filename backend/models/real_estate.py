@@ -27,3 +27,5 @@ class RealEstate(BaseModel):
     lon: float = Field(required=False, default=None)
     AQI: int = Field(required=False, default=None)
     air_pollutant_concentration: dict = Field(required=False, default=None)
+    azimuth: float = Field(required=False, default=None)
+    distance: float = Field(required=False, default=None)

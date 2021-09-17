@@ -1,4 +1,5 @@
 import json
+import traceback
 
 import eventlet
 eventlet.monkey_patch()
@@ -10,6 +11,7 @@ from models import RealEstate
 from utils import validate
 from core.celery import celery
 from core.enrichers import enrich_data
+from core.fields_to_numbers import fields_to_numbers
 
 
 class WebSocketAPI:
@@ -42,9 +44,11 @@ class WebSocketAPI:
             enriched_data = enrich_data(data)
         except Exception as e:
             print(e)
+            # print(traceback.format_exc())
             self.on_error("Failed to parse address, please check format")
         else:
-            self.socketIo.start_background_task(celery.send_task, 'celery_worker.predict', [enriched_data.dict()])
+            modified_data_dict = fields_to_numbers(enriched_data)
+            self.socketIo.start_background_task(celery.send_task, 'celery_worker.predict', [modified_data_dict])
 
 
 

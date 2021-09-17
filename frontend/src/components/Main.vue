@@ -180,7 +180,7 @@ export default {
           living_area: this.living_area,
           kitchen_area: this.kitchen_area,
           year: this.year,
-          underground: this.underground < 15 ? 1 : 0,
+          underground: Number(this.underground) < 15 ? 1 : 0,
           material_type: this.material_type,
           address: this.address,
           floor_number: this.floor_number,
