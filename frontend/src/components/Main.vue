@@ -186,7 +186,7 @@
                   >
                     {{ this.air_quality }}
                   </div>
-                  Cодержание CO в воздухе {{ this.comp_co }}
+                  Cодержание CO в воздухе {{ this.comp_co }} мг/м3
                 </div>
               </div>
             </transition>
