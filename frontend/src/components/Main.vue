@@ -225,6 +225,7 @@ export default {
   },
   methods: {
     send_data: function () {
+      this.error = false;
       this.$socket.emit(
         "real_estate_data",
         JSON.stringify({
@@ -244,6 +245,7 @@ export default {
   },
   mounted() {
     this.sockets.subscribe("price", (data) => {
+      console.log(data);
       this.price = data.price;
       this.refund = data.refund;
       this.air_quality = data.air_quality;
@@ -253,6 +255,7 @@ export default {
       this.seen_results = true;
     });
     this.sockets.subscribe("error", (data) => {
+      console.log(data);
       this.loading = false;
       this.error = true;
       this.seen_results = false;
