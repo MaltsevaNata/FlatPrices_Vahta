@@ -15,124 +15,134 @@
             С использованием технологии машинного обучения
           </p>
         </div>
+        <button class="btn_check_box" @click="active = !active">
+                <p class="but_check">Оценить стоимость</p>
+        </button>
       </header>
-
-
-      <button @click="active = !active">Ок</button>
-
-    </div>
-
-    <div class="fields">
-      <div class="fields_wrap">
-        <p class="fields_title">Выберите параметры квартиры</p>
-
-        <form @submit.prevent="send_data" class="fields_form">
-          <div class="input_field">
-            <p class="field_title">Регион</p>
-            <input type="text" v-model="region" id="region" required />
-          </div>
-
-          <div class="input_field">
-            <p class="field_title">Площадь объекта</p>
-            <input type="text" v-model="total_area" id="total_area" required />
-          </div>
-
-          <div class="input_field">
-            <p class="field_title">Жилая площадь</p>
-            <input
-              type="text"
-              v-model="living_area"
-              id="living_area"
-              required
-            />
-          </div>
-
-          <div class="input_field">
-            <p class="field_title">Площадь кухни</p>
-            <input
-              type="text"
-              v-model="kitchen_area"
-              id="kitchen_area"
-              required
-            />
-          </div>
-
-          <div class="input_field">
-            <p class="field_title">Год постройки</p>
-            <input type="text" v-model="year" id="year" required />
-          </div>
-
-          <div class="input_field">
-            <p class="field_title">Минут до метро(пешком)</p>
-            <input
-              type="text"
-              v-model="underground"
-              id="underground"
-              required
-            />
-          </div>
-
-          <div class="input_field">
-            <p class="field_title">Материал дома</p>
-            <input type="text" v-model="material_type" id="region" required />
-          </div>
-
-          <div class="input_field">
-            <p class="field_title">Адрес</p>
-            <input
-              type="text"
-              v-model="address"
-              id="address"
-              required
-              placeholder="Улица, дом"
-            />
-          </div>
-
-          <div class="input_field">
-            <p class="field_title">Номер этажа</p>
-            <input
-              type="text"
-              v-model="floor_number"
-              id="floor_number"
-              required
-            />
-          </div>
-
-          <div class="input_field">
-            <p class="field_title">Всего этажей</p>
-            <input
-              type="text"
-              v-model="total_floors"
-              id="total_floors"
-              required
-            />
-          </div>
-
-          <button class="btn_check_box">
-            <p class="but_check">Оценить стоимость</p>
-          </button>
-        </form>
-
-        <div class="cost">
-          <p class="cost_title">
-            Предполагаемая рыночная цена жилья: 600000 Руб.
-          </p>
-          <p class="cost_title">Залоговая цена: 300000 Руб.</p>
-          <p class="cost_title">Экологичность локации: 15%</p>
-        </div>
-      </div>
     </div>
 
     <transition name="fade">
-      <p class="hz" v-if="active">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque cum
-        minus, consequuntur debitis voluptate laudantium veritatis deleniti ut
-        modi excepturi voluptas, aliquid sunt aspernatur similique in velit
-        architecto a perferendis!
-      </p>
-    </transition>
+      <div class="popup" v-if="active">
+        <div class="fields">
+          <div class="fields_wrap">
+            <p class="fields_title">Выберите параметры квартиры</p>
 
-    
+            <form @submit.prevent="send_data" class="fields_form">
+              <div class="input_field">
+                <p class="field_title">Регион</p>
+                <input type="text" v-model="region" id="region" required />
+              </div>
+
+              <div class="input_field">
+                <p class="field_title">Площадь объекта</p>
+                <input
+                  type="text"
+                  v-model="total_area"
+                  id="total_area"
+                  required
+                />
+              </div>
+
+              <div class="input_field">
+                <p class="field_title">Жилая площадь</p>
+                <input
+                  type="text"
+                  v-model="living_area"
+                  id="living_area"
+                  required
+                />
+              </div>
+
+              <div class="input_field">
+                <p class="field_title">Площадь кухни</p>
+                <input
+                  type="text"
+                  v-model="kitchen_area"
+                  id="kitchen_area"
+                  required
+                />
+              </div>
+
+              <div class="input_field">
+                <p class="field_title">Год постройки</p>
+                <input type="text" v-model="year" id="year" required />
+              </div>
+
+              <div class="input_field">
+                <p class="field_title">Минут до метро(пешком)</p>
+                <input
+                  type="text"
+                  v-model="underground"
+                  id="underground"
+                  required
+                />
+              </div>
+
+              <div class="input_field">
+                <p class="field_title">Материал дома</p>
+                <input
+                  type="text"
+                  v-model="material_type"
+                  id="region"
+                  required
+                />
+              </div>
+
+              <div class="input_field">
+                <p class="field_title">Адрес</p>
+                <input
+                  type="text"
+                  v-model="address"
+                  id="address"
+                  required
+                  placeholder="Улица, дом"
+                />
+              </div>
+
+              <div class="input_field">
+                <p class="field_title">Номер этажа</p>
+                <input
+                  type="text"
+                  v-model="floor_number"
+                  id="floor_number"
+                  required
+                />
+              </div>
+
+              <div class="input_field">
+                <p class="field_title">Всего этажей</p>
+                <input
+                  type="text"
+                  v-model="total_floors"
+                  id="total_floors"
+                  required
+                />
+              </div>
+
+              <button class="btn_send" @click="seen_results = true">
+                <p class="but_send">Отправить</p>
+              </button>
+
+              <button class="btn_send" @click="active = !active">
+                <p class="but_send">Назад</p>
+              </button>
+            </form>
+          <transition name="fade">
+            <div class="cost" v-if="seen_results">
+              <span class="cost_title">
+                Предполагаемая рыночная цена жилья: {{ this.price }} Руб.
+              </span>
+              <p class="cost_title">Залоговая цена: {{ this.refund }} Руб.</p>
+              <p class="cost_title">
+                Качество воздуха: {{ this.air_quality }} из 5, содержание CO в
+                воздухе {{ this.comp_co }}
+              </p>
+            </div>
+          </transition>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -152,9 +162,12 @@ export default {
       address: "",
       floor_number: "",
       total_floors: "",
-      land: "",
-      picked: "",
-      active: true,
+      active: false,
+      price: "",
+      refund: "",
+      air_quality: "",
+      comp_co: "",
+      seen_results: false,
     };
   },
   methods: {
@@ -177,8 +190,12 @@ export default {
     },
   },
   mounted() {
-    this.sockets.subscribe("my_response", (data) => {
-      console.log(data);
+    this.sockets.subscribe("price", (data) => {
+      //console.log(data.price);
+      this.price = data.price;
+      this.refund = data.refund;
+      this.air_quality = data.air_quality;
+      this.comp_co = data.components.co;
     });
   },
 };
@@ -234,7 +251,7 @@ export default {
   background: url(../bg.png) no-repeat center top;
   background-size: cover;
   max-width: 100%;
-  height: 80vh;
+  height: 100vh;
   background-position: bottom;
   padding-top: 40px;
 }
@@ -316,10 +333,9 @@ header {
   background: #fdf8f8;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(15px);
-
   border-radius: 60px;
   padding: 5px 30px;
-  margin-top: 15px;
+  margin-top: 58px;
   transition: 0.3s ease-in-out;
 }
 
@@ -350,7 +366,7 @@ header {
 .fields {
   background-color: #f4ebe9;
   padding: 60px;
-  padding-top: 10px;
+  
 }
 
 .fields_wrap {
@@ -414,7 +430,7 @@ input {
   margin-bottom: 15px;
 }
 
-.hz {
+.popup {
   position: absolute;
   margin-left: auto;
   margin-right: auto;
