@@ -6,6 +6,7 @@
 За клиентскую часть отвечает Vue приложение (на схеме указано как Клиент).
 
 # Запуск приложения
+Перед запуском приложения для корректной работы установите в репозиторий `FlatPrices_Vahta/celery-price-predictor` модели машинного обучения, которые лежат на гугл-диске: https://drive.google.com/drive/folders/1ZUVWch7loWwpBMV27dRwrJ99sGbMdEsU?usp=sharing
 Для запуска перейдите в основную директорию репозитория `FlatPrices_Vahta`.
 Из командной строки выполните
 - `docker-compose build` 
