@@ -129,9 +129,9 @@
             </form>
           <transition name="fade">
             <div class="cost" v-if="seen_results">
-              <span class="cost_title">
+              <p class="cost_title">
                 Предполагаемая рыночная цена жилья: {{ this.price }} Руб.
-              </span>
+              </p>
               <p class="cost_title">Залоговая цена: {{ this.refund }} Руб.</p>
               <p class="cost_title">
                 Качество воздуха: {{ this.air_quality }} из 5, содержание CO в
@@ -432,10 +432,12 @@ input {
 
 .cost_title {
   font-size: 30px;
-  color: #50e080;
+  
   text-align: center;
   margin-bottom: 15px;
 }
+
+
 
 .popup {
   position: absolute;
@@ -444,5 +446,31 @@ input {
   left: 0;
   top: 0;
   text-align: center;
+}
+
+.but_send {
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 44px;
+  color: #444040;
+}
+
+.btn_send {
+  background: #fdf8f8;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(15px);
+  border-radius: 60px;
+  padding: 5px 30px;
+  margin-top: 58px;
+  transition: 0.3s ease-in-out;
+  margin-right: 60px;
+}
+
+.btn_send:hover,
+.btn_send:focus,
+.btn_send:active {
+  background: #dfd6d6;
 }
 </style>
