@@ -10,9 +10,15 @@ CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'amqp://rabbitmq:5672'),
 celery = Celery('celery_worker', broker=CELERY_BROKER_URL)
 
 
-
 @celery.task(name='celery_worker.predict')
 def predict_price(data: dict):
+    """
+    :param data: {'region': 2, 'material_type': 1, 'total_area': 18.0, 'living_area': 15.0, 'kitchen_area': 3.0,
+    'floor_number': 12, 'total_floors': 15, 'year': 2005, 'address': 'Begovaya, 25',
+    'underground': 1, 'lat': 59.988275, 'lon': 30.205824, 'AQI': 1, 'air_pollutant_concentration':
+    {'co': 494, 'no': 1.76, 'no2': 39.41, 'o3': 10.01, 'so2': 27.18, 'pm2_5': 2.47, 'pm10': 3.42, 'nh3': 0.49},
+     'azimuth': 314.67, 'distance': 8059.998925556098}
+    """
     print("predicting price...")
 
     df = pd.DataFrame(data)
@@ -38,7 +44,7 @@ def predict_price(data: dict):
         with open('./saintp_model.pkl', 'rb') as f:
             saintp_model = joblib.load(f)
         price = saintp_model.predict(val_X)[0]
-    print(price)
+    print(f"Price was predicted: {price}")
     socketIo = SocketIO(message_queue='amqp://rabbitmq:5672')
 
     socketIo.emit("price", {"price": price, "refund": (price - 0.1 * price), "air_quality": data["AQI"],
