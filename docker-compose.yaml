@@ -27,7 +27,6 @@ services:
       context: ./celery-queue
     environment:
       - WORKER_CONTAINER=TRUE
-    restart: always
     links:
       - rabbitmq
     env_file:
@@ -36,12 +35,13 @@ services:
       - rabbitmq
     volumes: ['./celery-queue:/queue']
 
-  nginx:
-    image: nginx:1.19.2
-    restart: always
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - backend
+  frontend:
+    container_name: frontend
+    build:
+      context: frontend/.
     ports:
       - "8080:80"
+    environment:
+      - PORT=9000
+    depends_on:
+      - backend
