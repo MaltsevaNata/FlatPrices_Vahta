@@ -16,7 +16,7 @@
           </p>
         </div>
         <button class="btn_check_box" @click="active = !active">
-                <p class="but_check">Оценить стоимость</p>
+          <p class="but_check">Оценить стоимость</p>
         </button>
       </header>
     </div>
@@ -30,14 +30,20 @@
             <form @submit.prevent="send_data" class="fields_form">
               <div class="input_field">
                 <p class="field_title">Регион</p>
-                <input type="text" v-model="region" id="region" required />
+                <select v-model="region" class="selecter" required>
+                  <option disabled value="">Выберите один из вариантов</option>
+                  <option value="Moscow">Москва</option>
+                  <option value="Saint-Petersburg">Санкт-Петербург</option>
+                </select>
               </div>
 
               <div class="input_field">
                 <p class="field_title">Площадь объекта</p>
                 <input
-                  type="text"
+                  type="number"
                   v-model="total_area"
+                  maxlength="5"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   id="total_area"
                   required
                 />
@@ -46,8 +52,10 @@
               <div class="input_field">
                 <p class="field_title">Жилая площадь</p>
                 <input
-                  type="text"
+                  type="number"
                   v-model="living_area"
+                  maxlength="5"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   id="living_area"
                   required
                 />
@@ -56,8 +64,10 @@
               <div class="input_field">
                 <p class="field_title">Площадь кухни</p>
                 <input
-                  type="text"
+                  type="number"
                   v-model="kitchen_area"
+                  maxlength="5"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   id="kitchen_area"
                   required
                 />
@@ -65,14 +75,24 @@
 
               <div class="input_field">
                 <p class="field_title">Год постройки</p>
-                <input type="text" v-model="year" id="year" required />
+                <input
+                  type="number"
+                  v-model="year"
+                  maxlength="4"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                  id="year"
+                  max="2050"
+                  required
+                />
               </div>
 
               <div class="input_field">
                 <p class="field_title">Минут до метро(пешком)</p>
                 <input
-                  type="text"
+                  type="number"
                   v-model="underground"
+                  maxlength="3"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   id="underground"
                   required
                 />
@@ -80,12 +100,17 @@
 
               <div class="input_field">
                 <p class="field_title">Материал дома</p>
-                <input
-                  type="text"
-                  v-model="material_type"
-                  id="region"
-                  required
-                />
+                <select v-model="material_type" class="selecter" required>
+                  <option disabled value="">Выберите один из вариантов</option>
+                  <option value="block">Блочный</option>
+                  <option value="brick">Кирпичный</option>
+                  <option value="monolith">Монолитный</option>
+                  <option value="monolithBrick">Монолитный из кирпича</option>
+                  <option value="old">Старый</option>
+                  <option value="panel">Панельный</option>
+                  <option value="stalin">Сталинская застройка</option>
+                  <option value="wireframe">Каркасный</option>
+                </select>
               </div>
 
               <div class="input_field">
@@ -102,9 +127,11 @@
               <div class="input_field">
                 <p class="field_title">Номер этажа</p>
                 <input
-                  type="text"
+                  type="number"
                   v-model="floor_number"
                   id="floor_number"
+                  maxlength="3"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   required
                 />
               </div>
@@ -112,33 +139,57 @@
               <div class="input_field">
                 <p class="field_title">Всего этажей</p>
                 <input
-                  type="text"
+                  type="number"
                   v-model="total_floors"
+                  maxlength="3"
+                  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                   id="total_floors"
                   required
                 />
               </div>
 
-              <button class="btn_send" @click="seen_results = true">
+              <button
+                class="btn_send"
+                @click="this.loading = true"
+              >
                 <p class="but_send">Отправить</p>
               </button>
 
               <button class="btn_send" @click="active = !active">
                 <p class="but_send">Назад</p>
               </button>
+              <transition name="fade" v-if="loading">
+                <p class="loader">Загрузка...</p>
+              </transition>
+              <transition name="fade" v-if="error">
+                <p class="error">Ошибка! Попробуйте снова.</p>
+              </transition>
             </form>
-          <transition name="fade">
-            <div class="cost" v-if="seen_results">
-              <p class="cost_title">
-                Предполагаемая рыночная цена жилья: {{ this.price }} Руб.
-              </p>
-              <p class="cost_title">Залоговая цена: {{ this.refund }} Руб.</p>
-              <p class="cost_title">
-                Качество воздуха: {{ this.air_quality }} из 5, содержание CO в
-                воздухе {{ this.comp_co }}
-              </p>
-            </div>
-          </transition>
+
+            <transition name="fade" v-if="seen_results">
+              <div class="cost" v-if="seen_results">
+                <p class="cost_title">
+                  Предполагаемая рыночная цена жилья: {{ this.price }} Руб.
+                </p>
+                <p class="cost_title">Залоговая цена: {{ this.refund }} Руб.</p>
+                <div class="cost_title">
+                  Качество воздуха:
+                  <div
+                    class="quality"
+                    :class="{
+                      quality_1: this.air_quality == 1,
+                      quality_2: this.air_quality == 2,
+                      quality_3: this.air_quality == 3,
+                      quality_4: this.air_quality == 4,
+                      quality_5: this.air_quality == 5,
+                    }"
+                  >
+                    {{ this.air_quality }}
+                  </div>
+                  Cодержание CO в воздухе {{ this.comp_co }}
+                </div>
+              </div>
+            </transition>
           </div>
         </div>
       </div>
@@ -168,6 +219,8 @@ export default {
       air_quality: "",
       comp_co: "",
       seen_results: false,
+      loading: false,
+      error: false,
     };
   },
   methods: {
@@ -180,7 +233,7 @@ export default {
           living_area: this.living_area,
           kitchen_area: this.kitchen_area,
           year: this.year,
-          underground: Number(this.underground) < 15 ? 1 : 0,
+          underground: this.underground > 15 ? 1 : 0,
           material_type: this.material_type,
           address: this.address,
           floor_number: this.floor_number,
@@ -191,20 +244,18 @@ export default {
   },
   mounted() {
     this.sockets.subscribe("price", (data) => {
-      //console.log(data.price);
       this.price = data.price;
       this.refund = data.refund;
       this.air_quality = data.air_quality;
       this.comp_co = data.components.co;
-    });
-    this.sockets.subscribe("got_data", (data) => {
-      console.log(data);
+      this.loading = false;
+      this.seen_results = true;
     });
     this.sockets.subscribe("error", (data) => {
-      console.log(data);
+      this.loading = false;
+      this.error = true;
     });
   },
-
 };
 </script>
 
@@ -373,7 +424,6 @@ header {
 .fields {
   background-color: #f4ebe9;
   padding: 60px;
-  
 }
 
 .fields_wrap {
@@ -432,12 +482,10 @@ input {
 
 .cost_title {
   font-size: 30px;
-  
+
   text-align: center;
   margin-bottom: 15px;
 }
-
-
 
 .popup {
   position: absolute;
@@ -472,5 +520,66 @@ input {
 .btn_send:focus,
 .btn_send:active {
   background: #dfd6d6;
+}
+
+.selecter {
+  width: 53%;
+  height: 40px;
+  padding: 10px 15px;
+  color: #575555;
+  border: 1px solid rgb(201, 201, 201); /* Параметры рамки */
+  border-radius: 15px;
+  outline: 0;
+  outline-offset: 0;
+}
+
+.quality {
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+  color: #e0e0e0;
+  font-weight: bold;
+}
+.quality_1 {
+  background-color: #09f343;
+}
+
+.quality_2 {
+  background-color: #d3e910;
+  color: #f0f0f0;
+}
+
+.quality_3 {
+  background-color: #e9c913;
+  color: #f0f0f0;
+}
+
+.quality_4 {
+  background-color: #fc9917;
+  color: #f0f0f0;
+}
+
+.quality_5 {
+  background-color: #f1440f;
+}
+
+.loader {
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+  color: #0f8f2f;
+}
+
+.error {
+  font-size: 30px;
+  text-align: center;
+  width: 100%;
+  margin-top: 20px;
+  color: #df0f0f;
 }
 </style>
