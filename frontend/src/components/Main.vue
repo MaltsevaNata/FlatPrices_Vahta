@@ -33,7 +33,7 @@
                 <select v-model="region" class="selecter" required>
                   <option disabled value="">Выберите один из вариантов</option>
                   <option value="Moscow">Москва</option>
-                  <option value="Saint-Petersburg">Санкт-Петербург</option>
+                  <option value="SaintPetersburg">Санкт-Петербург</option>
                 </select>
               </div>
 
