@@ -2,6 +2,10 @@ FROM node:12-buster as build
 WORKDIR /usr/app
 COPY package.json .
 RUN npm install
+
+RUN npm install vue-socket.io --save
+RUN npm install vue-socket.io-extended socket.io-client
+
 COPY . .
 
 RUN npm run build

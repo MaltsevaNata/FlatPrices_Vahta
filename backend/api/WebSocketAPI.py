@@ -1,3 +1,5 @@
+import json
+
 import eventlet
 eventlet.monkey_patch()
 from flask import Flask
@@ -33,6 +35,8 @@ class WebSocketAPI:
     @validate(cls=RealEstate, err_callback=on_error)
     def handle_input_data(self, data: RealEstate):
         print("Got your message")
+        if isinstance(data, str):
+            data = json.loads(data)
         emit('got_data', {'data': data.dict()})
         try:
             enriched_data = enrich_data(data)

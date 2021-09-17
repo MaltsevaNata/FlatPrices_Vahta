@@ -13,4 +13,5 @@ COPY . .
 EXPOSE 5000
 RUN mkdir -p /usr/local/var/log/gunicorn/
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "3", "wsgi_app:app"]
+CMD ["python", "app.py"]
+#CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--workers", "3", "wsgi_app:app"] NOT READY YET

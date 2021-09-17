@@ -2,7 +2,7 @@ import os
 from celery import Celery
 from flask_socketio import SocketIO
 
-CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'ampq://rabbitmq:5672'),
+CELERY_BROKER_URL = os.environ.get('CELERY_BROKER_URL', 'amqp://rabbitmq:5672'),
 
 celery = Celery('celery_worker', broker=CELERY_BROKER_URL)
 
