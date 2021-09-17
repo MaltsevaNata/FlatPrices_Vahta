@@ -148,22 +148,22 @@
                 />
               </div>
 
-              <button
-                class="btn_send"
-                @click="this.loading = true"
-              >
+              <button class="btn_send" @click="loading = true">
                 <p class="but_send">Отправить</p>
               </button>
 
               <button class="btn_send" @click="active = !active">
                 <p class="but_send">Назад</p>
               </button>
+
               <transition name="fade" v-if="loading">
                 <p class="loader">Загрузка...</p>
               </transition>
+
               <transition name="fade" v-if="error">
                 <p class="error">Ошибка! Попробуйте снова.</p>
               </transition>
+
             </form>
 
             <transition name="fade" v-if="seen_results">
@@ -249,12 +249,13 @@ export default {
       this.air_quality = data.air_quality;
       this.comp_co = data.components.co;
       this.loading = false;
-      this.seen_results = true;
       this.error = false;
+      this.seen_results = true;
     });
     this.sockets.subscribe("error", (data) => {
       this.loading = false;
       this.error = true;
+      this.seen_results = false;
     });
   },
 };
