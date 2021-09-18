@@ -11,15 +11,19 @@ services:
       - rabbitmq
     # volumes line used for hot code reloading
     volumes: [ './backend:/backend' ]
+    networks:
+      - webnet
 
   rabbitmq:
     container_name: rabbit
     image: rabbitmq:alpine
     ports:
-      - 5672:5672
+      - "5672:5672"
     restart: always
     env_file:
       - ./.env.dev
+    networks:
+      - webnet
 
   celery_worker:
     container_name: celery
@@ -34,6 +38,8 @@ services:
     depends_on:
       - rabbitmq
     volumes: ['./celery-price-predictor:/queue']
+    networks:
+      - webnet
 
   frontend:
     container_name: frontend
@@ -41,7 +47,11 @@ services:
       context: frontend/.
     ports:
       - "8080:80"
-    environment:
-      - PORT=9000
     depends_on:
       - backend
+    networks:
+      - webnet
+
+networks:
+  webnet:
+

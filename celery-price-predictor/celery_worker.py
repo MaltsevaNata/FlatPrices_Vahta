@@ -1,3 +1,5 @@
+import eventlet
+eventlet.monkey_patch()
 import os
 
 from celery import Celery
@@ -45,7 +47,7 @@ def predict_price(data: dict):
             saintp_model = joblib.load(f)
         price = saintp_model.predict(val_X)[0]
     print(f"Price was predicted: {price}")
-    socketIo = SocketIO(message_queue='amqp://rabbitmq:5672')
+    socketIo = SocketIO(message_queue='amqp://rabbitmq:5672', )
 
     aqi = {1: "Высокое", 2: "Высокое", 3: "Среднее", 4: "Низкое", 5: "Низкое"}
     air_quality = aqi[data["AQI"]]
