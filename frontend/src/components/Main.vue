@@ -550,7 +550,7 @@ input {
   font-weight: bold;
 }
 .quality_1 {
-  background-color: #09f343;
+  background-color: #98e0ac;
 }
 
 .quality_2 {
@@ -569,7 +569,7 @@ input {
 }
 
 .quality_5 {
-  background-color: #f1440f;
+  background-color: #e59e88;
 }
 
 .loader {
