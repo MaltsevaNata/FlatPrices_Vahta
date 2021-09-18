@@ -177,16 +177,16 @@
                   <div
                     class="quality"
                     :class="{
-                      quality_1: this.air_quality == 1,
-                      quality_2: this.air_quality == 2,
-                      quality_3: this.air_quality == 3,
-                      quality_4: this.air_quality == 4,
-                      quality_5: this.air_quality == 5,
+                      quality_1: this.air_quality == 'Высокое',
+                      quality_3: this.air_quality == 'Среднее',
+                      quality_5: this.air_quality == 'Низкое',
                     }"
                   >
                     {{ this.air_quality }}
                   </div>
-                  Cодержание CO в воздухе {{ this.comp_co }}
+                  Cодержание CO в воздухе {{ this.comp_co }} мг/м3
+                  <br/>
+                  (ПДК: 20 мг/м3)
                 </div>
               </div>
             </transition>

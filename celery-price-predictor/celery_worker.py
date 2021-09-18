@@ -47,6 +47,9 @@ def predict_price(data: dict):
     print(f"Price was predicted: {price}")
     socketIo = SocketIO(message_queue='amqp://rabbitmq:5672')
 
-    socketIo.emit("price", {"price": price, "refund": (price - 0.1 * price), "air_quality": data["AQI"],
+    aqi = {1: "Высокое", 2: "Высокое", 3: "Среднее", 4: "Низкое", 5: "Низкое"}
+    air_quality = aqi[data["AQI"]]
+
+    socketIo.emit("price", {"price": round(price,0), "refund": round((price - 0.1 * price),0), "air_quality": air_quality,
                             "components": {"co": round(data["air_pollutant_concentration"]["co"]/1000, 2)}}, broadcast=True)
     print("Finished task")
