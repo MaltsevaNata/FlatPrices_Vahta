@@ -25,3 +25,5 @@ https://github.com/MaltsevaNata/FlatPrices_Vahta
 # ВАЖНО:
 Сейчас приложение поддерживает только 1 клиента. 
 
+# КОМАНДА
+![team](./team.JPG)
