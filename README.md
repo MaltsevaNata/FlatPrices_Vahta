@@ -1,6 +1,9 @@
 # DEMO 
 [![demo video](preview.JPG)](https://youtu.be/VxQ12qFpFJU)
 
+# Презентация 
+[VAXTA presentation](https://github.com/MaltsevaNata/FlatPrices_Vahta/blob/master/vaxta%20presentation.pdf)
+
 # Репозиторий
 https://github.com/MaltsevaNata/FlatPrices_Vahta
 
